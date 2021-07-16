@@ -9,5 +9,5 @@ You should also properly configure the following variables in your .env file
 - authority
 - clientSecret
 - scope
-- username
+- userEmail
 - password
