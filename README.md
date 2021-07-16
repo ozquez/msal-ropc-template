@@ -1,4 +1,4 @@
-# msal-ropc-example
+# msal-ropc-template
 Using Microsoft Authentication Library with Resource Owner Password Credentials Flow
 
 # Instructions
