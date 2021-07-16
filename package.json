@@ -1,0 +1,23 @@
+{
+  "name": "msal-ropc-example",
+  "version": "1.0.0",
+  "description": "Using Microsoft Authentication Library with Resource Owner Password Credentials Flow",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ozquez/msal-ropc-example.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ozquez/msal-ropc-example/issues"
+  },
+  "homepage": "https://github.com/ozquez/msal-ropc-example#readme",
+  "dependencies": {
+    "@azure/msal-node": "^1.2.0"
+  }
+}
