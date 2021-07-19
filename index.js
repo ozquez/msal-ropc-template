@@ -1,21 +1,13 @@
-const { Logger } = require('@azure/msal-node');
+require('dotenv').config();
 const axios = require('axios');
-const { promises: fs } = require("fs");
-// const { tokenCalls } = require('./app')
+const tokenCalls = require('./auth')
 
-// const cachePath = "./data/cache.json"; // Replace this string with the path to your valid cache file.
+const cachePath = require("./data/cache.json");
+const accessToken = cachePath.AccessToken[process.env.tokenProperty].secret
+const accessTokenExpiresOn = cachePath.AccessToken[process.env.tokenProperty].expires_on
+const endpoint = 'https://graph.microsoft.com/beta/';
 
-// async function cacheData(){
-//     try{
-//        const data = JSON.parse(await fs.readFile(cachePath, "utf-8"));   
-//        return data.AccessToken;
-//     } catch (error) {
-//         console.log(error);
-//         return error;
-//     }
-// }
-
-async function callApi(endpoint, accessToken) {
+const callApi = async (endpoint, accessToken) => {
     const options = {
         headers: {
             Authorization: `Bearer ${accessToken}`
@@ -34,5 +26,17 @@ async function callApi(endpoint, accessToken) {
 }
 
 
-callApi();
+const main = async () => {
+    if (accessTokenExpiresOn < Math.floor(new Date().getTime() / 1000)) {
+        console.log('Se renovara el token..');
+        await tokenCalls()
+    } else {
+        console.log('Todo bien con el token');
+    }
+
+    callApi(`${endpoint}/bookingBusinesses/InterviesCalendar@permtest.onmicrosoft.com`, accessToken)
+}
+
+main()
+
 
