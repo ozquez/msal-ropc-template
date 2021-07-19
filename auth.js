@@ -36,13 +36,14 @@ const msalConfig = {
 const pca = new msal.PublicClientApplication(msalConfig);
 const msalTokenCache = pca.getTokenCache();
 
+
 const tokenCalls = async () => {
 
     async function getAccounts() {
         return await msalTokenCache.getAllAccounts();
     };
 
-    accounts = await getAccounts();
+    const accounts = await getAccounts();
 
     // Acquire Token Silently if an account is present
     if (accounts.length > 0) {
@@ -51,25 +52,28 @@ const tokenCalls = async () => {
             scopes: [process.env.scope], // user.read also works god
         };
 
-        pca.acquireTokenSilent(silentRequest).then((response) => {
-            console.log("\nSuccessful silent token acquisition");
-        }).catch((error) => {
+        try {
+            await pca.acquireTokenSilent(silentRequest)
+            console.log("\nSuccessful silent token acquisition\n");    
+        } catch (error) {
             console.log(error);
-        });
-    // fall back to username password if there is no account
+        }
+        // fall back to username password if there is no account
     } else {
         const usernamePasswordRequest = {
             scopes: [process.env.scope], // user.read also works god
-            username: process.env.username, // Add your username here
+            username: process.env.userEmail, // Add your username here
             password: process.env.password, // Add your password here
         };
 
-        pca.acquireTokenByUsernamePassword(usernamePasswordRequest).then((response) => {
-            console.log("acquired token by password grant");
-        }).catch((error) => {
+        try {
+            await pca.acquireTokenByUsernamePassword(usernamePasswordRequest)
+            console.log("\nAcquired token by password grant\n");
+        } catch (error) {
             console.log(error);
-        });
+        }
     }
 }
 
-tokenCalls();
+module.exports = tokenCalls
+
